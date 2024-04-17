@@ -24,8 +24,6 @@ from .const import (
     DOMAIN,
 )
 
-_LOGGER = logging.getLogger(__name__)
-
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required("username"): str,
@@ -43,7 +41,7 @@ async def validate_input(hass: HomeAssistant, user_input: dict[str, Any]) -> Tok
 
     if ym.token is None:
         raise InvalidAuth
-
+        _LOGGER.error(f"Authentication failed:")
     return ym.token
 
 
@@ -107,7 +105,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             errors["base"] = "unknown"
         else:
             if self.reauth_entry is None:
-                title = f"{user_input[CONF_USERNAME]}"
+                title = f"{user_input["username"]}"
                 await self.async_set_unique_id(
                     hashlib.sha256(title.encode("utf-8")).hexdigest()
                 )
