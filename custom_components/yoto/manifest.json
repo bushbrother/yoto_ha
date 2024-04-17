@@ -7,7 +7,7 @@
   "integration_type": "hub",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/cdnninja/yoto_ha/issues",
-  "loggers": ["yoto", "yoto_api"],
-  "requirements": ["yoto-api==1.2.1"],
+  "loggers": ["custom_component.yoto", "yoto_api"],
+  "requirements": ["yoto-api==1.2.2"],
   "version": "1.0.0"
 }
