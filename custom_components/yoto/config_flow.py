@@ -12,15 +12,14 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
-    CONF_PASSWORD,
     CONF_SCAN_INTERVAL,
-    CONF_USERNAME,
 )
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
 
 from .const import (
+    _LOGGER,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
 )
@@ -29,8 +28,8 @@ _LOGGER = logging.getLogger(__name__)
 
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
-        vol.Required(CONF_USERNAME): str,
-        vol.Required(CONF_PASSWORD): str,
+        vol.Required("username"): str,
+        vol.Required("password"): str,
     }
 )
 
@@ -39,7 +38,7 @@ async def validate_input(hass: HomeAssistant, user_input: dict[str, Any]) -> Tok
     """Validate the user input allows us to connect."""
 
     ym = await hass.async_add_executor_job(
-        YotoManager, user_input[CONF_USERNAME], user_input[CONF_PASSWORD]
+        YotoManager, user_input["username"], user_input["password"]
     )
 
     if ym.token is None:
